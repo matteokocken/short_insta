@@ -4,6 +4,11 @@ FROM python:3.9-slim
 # Définir le répertoire de travail dans le conteneur
 WORKDIR /app
 
+# Créer un utilisateur non-root et lui donner la propriété du répertoire de travail
+RUN adduser --disabled-password --gecos '' monuser
+RUN chown -R monuser:monuser /app
+USER monuser
+
 # Copier les fichiers de dépendances et installer les paquets requis
 COPY ./python/requirements.txt /app
 RUN pip install --no-cache-dir -r requirements.txt
